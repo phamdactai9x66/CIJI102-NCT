@@ -1,0 +1,55 @@
+
+/* this is Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.searchBox {
+  display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* This is Main Container */
+
+.stack {
+  display: flex;
+    gap: 8px;
+  
+}
+
+.stack > div {
+  flex: 25% 0;
+  border: 1px solid;
+}
+
+.subStack {
+  display: flex;
+  justify-content: space-between;
+}
+
+.subStack > div {
+
+  display: flex;
+}
+
+.bgCircle {
+  background-color: red;
+  border-radius: 100%;
+  padding: 5px;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleCard {
+  display: flex;
+    justify-content: space-between;
+}
+
+
