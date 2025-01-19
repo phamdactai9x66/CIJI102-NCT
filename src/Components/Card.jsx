@@ -2,13 +2,13 @@
 import React from "react";
 
 const Card = (props) => {
-  const { titleCard, desCard } = props;
+  const { titleCard, desCard, taskId } = props;
 
   return (
     <div className="card">
       <div className="titleCard">
         <span>{titleCard}</span>
-        <span>icon</span>
+        <span onClick={() => props.saveID(taskId)}>icon</span>
       </div>
 
       <p>{desCard}</p>
