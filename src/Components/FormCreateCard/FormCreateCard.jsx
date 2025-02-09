@@ -23,7 +23,7 @@ const FormCreateCard = (props) => {
         id: +new Date().getTime(),
       };
 
-      // POST, PUT
+      // POST, PUT hihhi
       await fetch("http://localhost:3001/tasks", {
         method: "POST",
         body: JSON.stringify(newCard),
