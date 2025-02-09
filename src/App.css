@@ -49,7 +49,11 @@
 
 .titleCard {
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
+  gap: 8px;
 }
 
+.titleCard > * {
+  border: 1px solid red;
+}
 

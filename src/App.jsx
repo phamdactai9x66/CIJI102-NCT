@@ -120,6 +120,7 @@ function App() {
                 <ListCard
                   dataStack={dataStack}
                   saveID={saveID}
+                  handleApi={handleApi}
                   targetStatus={1}
                 />
               </div>
