@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import HeaderLayout from "./Layout/Header";
 import ListCard from "./Components/ListCard";
@@ -11,6 +11,30 @@ function App() {
   const [dataStack, setDataStack] = useState(tasks);
 
   const [idCard, setIdCard] = useState("");
+
+  const handleApi = async () => {
+    // GET,POST, PUT,DELETE
+
+    // method GET handle data from server
+    // method POST handle add new data
+    // method PUT handle update data
+    // method DELETE handle delete data
+
+    try {
+      const handleRes = await (
+        await fetch("http://localhost:3001/tasks")
+      ).json();
+
+      setDataStack(handleRes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    handleApi();
+    return () => {};
+  }, []);
 
   const handleStack = (value) => {
     const filterData = tasks.filter((e) => {
