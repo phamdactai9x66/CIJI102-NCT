@@ -21,7 +21,7 @@ const Card = (props) => {
     <div className="card">
       <div className="titleCard">
         <span>{titleCard}</span>
-        <span onClick={() => props.saveID(taskId)}>icon</span>
+        <span onClick={() => props.saveID(props.id || taskId)}>icon</span>
         <p>
           <button onClick={handleDelete}>delete</button>
         </p>
