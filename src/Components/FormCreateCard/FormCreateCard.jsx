@@ -2,28 +2,41 @@ import React from "react";
 import "./FormCreateCard.css";
 
 const FormCreateCard = (props) => {
-  // eslint-disable-next-line react/prop-types
-  const { handleCreateCard } = props;
-
   const [title, setTitle] = React.useState("");
 
   const [description, setDescription] = React.useState("");
 
   const [status, setStatus] = React.useState("1");
 
-  const handleSave = () => {
-    const newCard = {
-      title: title,
-      description: description,
-      statusId: +status,
-      // value static
-      taskId: +new Date().getTime(),
-      flagId: 2, // Medium
-      assignedTo: 1, // userId
-      deadline: new Date("2024-04-12"),
-    };
+  const handleSave = async () => {
+    try {
+      const newCard = {
+        title: title,
+        description: description,
+        statusId: +status,
+        // value static
+        taskId: +new Date().getTime(),
+        flagId: 2, // Medium
+        assignedTo: 1, // userId
+        deadline: new Date("2024-04-12"),
+        // unique id for each card
+        id: +new Date().getTime(),
+      };
 
-    handleCreateCard(newCard);
+      // POST, PUT
+      await fetch("http://localhost:3001/tasks", {
+        method: "POST",
+        body: JSON.stringify(newCard),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // eslint-disable-next-line react/prop-types
+      props.handleApi && props.handleApi();
+    } catch (error) {
+      alert("you add new card is unsuccessfully");
+    }
   };
 
   const handleClearValues = () => {

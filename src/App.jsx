@@ -96,7 +96,7 @@ function App() {
         <HeaderLayout handleStack={handleStack} />
         <main>
           {/* <Component /> */}
-          <FormCreateCard handleCreateCard={handleCreateCard} />
+          <FormCreateCard handleApi={handleApi} />
 
           <FormEditCard handleEditCard={handleEditCard} idCard={idCard} />
 
