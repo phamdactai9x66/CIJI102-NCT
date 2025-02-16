@@ -1,156 +1,52 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
-import HeaderLayout from "./Layout/Header";
-import ListCard from "./Components/ListCard";
+import { Route, Routes } from "react-router";
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
+import CardDetail from "./pages/CardDetail/CardDetail";
+import Home2 from "./pages/Home2/Home2";
+import User from "./pages/User/User";
+import User1 from "./pages/User1/User1";
+import User2 from "./pages/User2/User2";
+import MainHome from "./pages/MainHome/MainHome";
+import RequiredAuth from "./Components/RequiredAuth";
 
-import { tasks } from "./constant";
-import FormCreateCard from "./Components/FormCreateCard/FormCreateCard";
-import FormEditCard from "./Components/FormEditCard/FormEditCard";
-
-function App() {
-  const [dataStack, setDataStack] = useState(tasks);
-
-  const [idCard, setIdCard] = useState("");
-
-  const handleApi = async () => {
-    // GET,POST, PUT,DELETE
-
-    // method GET handle data from server
-    // method POST handle add new data
-    // method PUT handle update data
-    // method DELETE handle delete data
-
-    try {
-      const handleRes = await (
-        await fetch("http://localhost:3001/tasks")
-      ).json();
-
-      setDataStack(handleRes);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  React.useEffect(() => {
-    handleApi();
-    return () => {};
-  }, []);
-
-  const handleStack = (value) => {
-    const filterData = tasks.filter((e) => {
-      const { title, description } = e;
-
-      // title.indexOf(value) !== -1 lay all value khac -1 = notFound
-      // description.indexOf(value) !== -1 lay all value khac -1 = notFound
-
-      // title = Mobile Wireframes
-      // value = awd
-
-      // toi muon lay index cua title toi tim dc khi find value
-      return title.indexOf(value) !== -1 || description.indexOf(value) !== -1;
-    });
-
-    setDataStack(filterData);
-  };
-
-  const handleCreateCard = (obj) => {
-    const newData = [...dataStack, obj];
-
-    setDataStack(newData);
-  };
-
-  const handleEditCard = (obj, idCard) => {
-    const newData = dataStack.map((e) => {
-      if (e.taskId === idCard) {
-        // e=  {
-        //   taskId: 2,
-        //   title: "User Research",
-        //   description: "Thực hiện nghiên cứu người dùng để hiểu rõ nhu cầu.",
-        //   statusId: 2, // In Progress
-        //   flagId: 3, // High
-        //   assignedTo: 2, // userId
-        //   deadline: new Date("2024-03-04"),
-        // }
-
-        // obj = {
-        //   title: "Mobile Wireframes",
-        //   description: "Lên bố cục ứng dụng thích nghi cho Mobile.",
-        //   statusId: 1, // To Do
-
-        return { ...e, ...obj };
-      }
-
-      return e;
-    });
-
-    setDataStack(newData);
-  };
-
-  const saveID = (id) => {
-    setIdCard(id);
-  };
+const App = () => {
+  const [login, setLogin] = React.useState(false);
+  // static route
+  // dynamic route
+  // nested route
+  // protected route
+  // component Link
+  // useNavigate
+  // useSearchParams
 
   return (
-    <>
-      <div className="container">
-        <HeaderLayout handleStack={handleStack} />
-        <main>
-          {/* <Component /> */}
-          <FormCreateCard handleApi={handleApi} />
+    <React.Fragment>
+      {login ? "user is login" : "user is not login"}
+      <Routes>
+        <Route index element={<MainHome setLogin={setLogin} />} />
 
-          <FormEditCard handleEditCard={handleEditCard} idCard={idCard} />
+        {/* this route require auth */}
 
-          <div className="stack">
-            <div>
-              {/* header sub Stack */}
-              <section className="subStack">
-                <div>
-                  <span>To Do</span>
+        <Route element={<RequiredAuth login={login} />}>
+          <Route path="/home" element={<Home2 />}>
+            <Route index element={<Home />} />
+            <Route path=":idCard" element={<CardDetail />} />
+          </Route>
+        </Route>
 
-                  <span className="countAlert bgCircle">3</span>
-                </div>
-                <div>
-                  <span className="bgCircle">+</span>
+        <Route path="/login" element={<Login />} />
 
-                  <span>···</span>
-                </div>
-              </section>
-
-              <div>
-                <ListCard
-                  dataStack={dataStack}
-                  saveID={saveID}
-                  handleApi={handleApi}
-                  targetStatus={1}
-                />
-              </div>
-            </div>
-            <div>
-              <ListCard
-                dataStack={dataStack}
-                targetStatus={2}
-                saveID={saveID}
-              />
-            </div>
-            <div>
-              <ListCard
-                dataStack={dataStack}
-                targetStatus={3}
-                saveID={saveID}
-              />
-            </div>
-            <div>
-              <ListCard
-                dataStack={dataStack}
-                targetStatus={4}
-                saveID={saveID}
-              />
-            </div>
-          </div>
-        </main>
-      </div>
-    </>
+        <Route path="/user" element={<User />}>
+          {/* route1 */}
+          <Route path="user1" element={<User1 />} />
+          {/* route1 */}
+          <Route path="user2" element={<User2 />} />
+        </Route>
+      </Routes>
+    </React.Fragment>
   );
-}
+};
 
 export default App;

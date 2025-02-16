@@ -22,6 +22,8 @@ const Card = (props) => {
       <div className="titleCard">
         <span>{titleCard}</span>
         <span onClick={() => props.saveID(props.id || taskId)}>icon</span>
+
+        <a href={`/home/${taskId}`}>card detail</a>
         <p>
           <button onClick={handleDelete}>delete</button>
         </p>
