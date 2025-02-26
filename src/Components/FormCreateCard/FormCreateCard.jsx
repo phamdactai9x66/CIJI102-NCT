@@ -3,38 +3,54 @@ import "./FormCreateCard.css";
 import useForm from "../../hooks/useForm";
 
 const FormCreateCard = (props) => {
-  const { values, handleChange } = useForm({
-    initialValues: { title: "", description: "", cars: "1" },
-  });
+  const { values, handleChange, handleSubmit, errors } = useForm({
+    initialValues: { title: "", description: "", status: "1" },
+    validate: (values) => {
+      let errors = {};
 
-  const handleSave = async () => {
-    try {
-      // const newCard = {
-      //   title: title,
-      //   description: description,
-      //   statusId: +status,
-      //   // value static
-      //   taskId: +new Date().getTime(),
-      //   flagId: 2, // Medium
-      //   assignedTo: 1, // userId
-      //   deadline: new Date("2024-04-12"),
-      //   // unique id for each card
-      //   id: +new Date().getTime(),
-      // };
-      // // POST, PUT
-      // await fetch("http://localhost:3001/tasks", {
-      //   method: "POST",
-      //   body: JSON.stringify(newCard),
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // });
-      // // eslint-disable-next-line react/prop-types
-      // props.handleApi && props.handleApi();
-    } catch (error) {
-      alert("you add new card is unsuccessfully");
-    }
-  };
+      for (let key in values) {
+        if (key == "title") {
+          // if value is empty
+          if (!values[key]) {
+            errors[key] = "Title is required";
+          }
+        }
+      }
+
+      return errors;
+    },
+    onSubmit: async (values) => {
+      try {
+        console.log(values);
+
+        const newCard = {
+          title: values.title,
+          description: values.description,
+          statusId: +values.status,
+          // value static
+          taskId: +new Date().getTime(),
+          flagId: 2, // Medium
+          assignedTo: 1, // userId
+          deadline: new Date("2024-04-12"),
+          // unique id for each card
+          id: +new Date().getTime(),
+        };
+
+        // POST, PUT
+        await fetch("http://localhost:3001/tasks", {
+          method: "POST",
+          body: JSON.stringify(newCard),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        // eslint-disable-next-line react/prop-types
+        props.handleApi && props.handleApi();
+      } catch (error) {
+        alert("you add new card is unsuccessfully");
+      }
+    },
+  });
 
   const handleClearValues = () => {
     // setTitle("");
@@ -55,6 +71,8 @@ const FormCreateCard = (props) => {
           value={values.title}
           placeholder="fieldTitle"
         />
+
+        {errors.title ? <p>{errors.title}</p> : ""}
       </div>
 
       <div>
@@ -70,12 +88,12 @@ const FormCreateCard = (props) => {
       </div>
 
       <div>
-        <label htmlFor="cars">Choose a Status:</label>
+        <label htmlFor="status">Choose a Status:</label>
 
         <select
-          id="cars"
+          id="status"
           onChange={handleChange}
-          name="cars"
+          name="status"
           value={values.status}
         >
           <option value="1">To Do</option>
@@ -86,7 +104,7 @@ const FormCreateCard = (props) => {
       </div>
 
       <div>
-        <button onClick={handleSave}>Save</button>{" "}
+        <button onClick={handleSubmit}>Save</button>{" "}
         <button onClick={handleClearValues}>Clear Values</button>
       </div>
     </div>
