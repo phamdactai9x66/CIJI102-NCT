@@ -1,8 +1,21 @@
 import React from "react";
 import "./FormCreateCard.css";
 import useForm from "../../hooks/useForm";
+import useEventListener from "../../hooks/useEventListener";
 
 const FormCreateCard = (props) => {
+  const container = React.useRef("");
+
+  useEventListener(
+    {
+      event: "click",
+      callBack: () => {
+        container.current.style.color = "blue";
+      },
+    },
+    () => container.current
+  );
+
   const { values, handleChange, handleSubmit, errors } = useForm({
     initialValues: { title: "", description: "", status: "1" },
     validate: (values) => {
@@ -52,6 +65,18 @@ const FormCreateCard = (props) => {
     },
   });
 
+  React.useEffect(() => {
+    const callBack = () => {
+      // container.current.style.color = "red";
+    };
+    container.current.addEventListener("click", callBack);
+
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      container.current.removeEventListener("click", callBack);
+    };
+  }, []);
+
   const handleClearValues = () => {
     // setTitle("");
     // setDescription("");
@@ -59,7 +84,7 @@ const FormCreateCard = (props) => {
   };
 
   return (
-    <div className="FormCreateCard">
+    <div className="FormCreateCard" ref={container}>
       <h1>Create Card</h1>
       <div>
         <label htmlFor="fieldTitle">Title</label>
