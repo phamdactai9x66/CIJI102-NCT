@@ -29,7 +29,7 @@ const App = () => {
 
         {/* this route require auth */}
 
-        <Route element={<RequiredAuth login={login} />}>
+        <Route element={<RequiredAuth login={true} />}>
           <Route path="/home" element={<Home2 />}>
             <Route index element={<Home />} />
             <Route path=":idCard" element={<CardDetail />} />

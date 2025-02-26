@@ -12,7 +12,6 @@ function Home() {
   const [dataStack, setDataStack] = useState(tasks);
 
   const [searchParams] = useSearchParams();
-  console.log(searchParams.getAll("b"));
 
   const [idCard, setIdCard] = useState("");
 
